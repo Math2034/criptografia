@@ -1,16 +1,22 @@
-const { createCipheriv, randomBytes, createDecipheriv } = require('crypto');
+const cripto=(str) =>
+{
+    var letras= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let resultado ='';
+    while(str.length>0)
+  {
 
-const msg = 'https://www.youtube.com/watch?v=P9qbAuNnFU0';
-const chave = randomBytes(32);
-const iv = randomBytes(16);
+  for (let i=0;i<=25;i++)
+     { 
+       if ((letras[i]===str[0]) && (i>13)) {resultado = resultado + letras[i-13];};
+       if ((letras[i]===str[0]) && (i<13)) {resultado = resultado + letras[i+13] ;} ;
+      };
+ if (!  /^[A-Z]*$/.test(str[0]) ) {resultado = resultado+ str[0];}; 
+str=str.substring(1);
+   };   
+  return resultado;          
+};
 
-const cipher = createCipheriv('aes256', chave, iv);
+//digite a mensagem(criptografada ou descriptografada) aqui e terá tanto a mensagem decifrada quanto criptografada
+console.log(cripto('VASCO'));
 
-
-const msgEncriptada = cipher.update(msg, 'utf8', 'hex') + cipher.final('hex');
-console.log(`Encriptado: ${msgEncriptada}`);
-
-
-const decipher = createDecipheriv('aes256', chave, iv);
-const msgDescriptada = decipher.update(msgEncriptada, 'hex', 'utf-8') + decipher.final('utf8');
-console.log(`Decifrado: ${msgDescriptada.toString('utf-8')}`);
+//comando para rodar no terminal: node index.js
